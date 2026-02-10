@@ -1,10 +1,13 @@
-import styles from "./App.module.css";
+import { BrowserRouter } from "react-router-dom";
+// import styles from "./App.module.css";
+import { Header } from "./components/Header/Header";
+import { AppRoutes } from "./app/routes";
 
 export function App() {
   return (
-    <main style={{ padding: 24 }}>
-      <h1 className={styles.title}>Listify</h1>
-      <p>Setup inicial do projeto.</p>
-    </main>
+    <BrowserRouter>
+      <Header />
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
