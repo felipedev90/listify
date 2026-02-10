@@ -1,4 +1,4 @@
-export type Unit = "unid" | "g" | "ml";
+export type Unit = "unid." | "g" | "ml";
 
 export type Category =
   | "Hortifruti"
