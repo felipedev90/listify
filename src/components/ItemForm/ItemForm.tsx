@@ -9,14 +9,24 @@ export type NewItemData = {
 };
 
 type ItemFormProps = {
-  onAdd: (data: NewItemData) => void;
+  onSubmit: (data: NewItemData) => void;
+  initialValues?: Partial<NewItemData>;
+  onCancel?: () => void;
+  submitLabel?: string;
 };
 
-export function ItemForm({ onAdd }: ItemFormProps) {
-  const [name, setName] = useState<string>("");
-  const [qty, setQty] = useState<number>(1);
-  const [unit, setUnit] = useState<Unit>("unid.");
-  const [category, setCategory] = useState<Category>("Outros");
+export function ItemForm({
+  onSubmit,
+  submitLabel,
+  initialValues,
+  onCancel,
+}: ItemFormProps) {
+  const [name, setName] = useState(initialValues?.name ?? "");
+  const [qty, setQty] = useState(initialValues?.qty ?? 1);
+  const [unit, setUnit] = useState<Unit>(initialValues?.unit ?? "unid.");
+  const [category, setCategory] = useState<Category>(
+    initialValues?.category ?? "Outros",
+  );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,12 +34,16 @@ export function ItemForm({ onAdd }: ItemFormProps) {
     if (name.trim() === "") return;
     if (qty <= 0) return;
 
-    onAdd({ name: name.trim(), qty, unit, category });
+    const isEditingMode = Boolean(initialValues);
 
-    setName("");
-    setQty(1);
-    setUnit("unid.");
-    setCategory("Outros");
+    onSubmit({ name: name.trim(), qty, unit, category });
+
+    if (!isEditingMode) {
+      setName("");
+      setQty(1);
+      setUnit("unid.");
+      setCategory("Outros");
+    }
   }
 
   return (
@@ -62,7 +76,13 @@ export function ItemForm({ onAdd }: ItemFormProps) {
           <option value={"Bebidas"}>Bebidas</option>
           <option value={"Outros"}>Outros</option>
         </select>
-        <button type="submit">Adicionar</button>
+
+        <button type="submit">{submitLabel ?? "Adicionar"}</button>
+        {onCancel && (
+          <button type="button" onClick={onCancel}>
+            Cancelar
+          </button>
+        )}
       </div>
     </form>
   );
