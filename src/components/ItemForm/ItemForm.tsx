@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Category, Unit } from "../../types/shopping";
+import styles from "./ItemForm.module.css";
 
 export type NewItemData = {
   name: string;
@@ -47,21 +48,27 @@ export function ItemForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.row}>
         <input
           type="text"
           value={name}
           placeholder="Item"
           onChange={(e) => setName(e.target.value)}
+          className={styles.input}
         />
         <input
           type="number"
           value={qty}
           min={1}
           onChange={(e) => setQty(Number(e.target.value))}
+          className={styles.qty}
         />
-        <select value={unit} onChange={(e) => setUnit(e.target.value as Unit)}>
+        <select
+          value={unit}
+          onChange={(e) => setUnit(e.target.value as Unit)}
+          className={styles.select}
+        >
           <option value={"unid."}>Unidade</option>
           <option value={"g"}>Grama</option>
           <option value={"ml"}>ml</option>
@@ -69,6 +76,7 @@ export function ItemForm({
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
+          className={styles.select}
         >
           <option value={"Hortifruti"}>Hortifruti</option>
           <option value={"Laticínios"}>Laticínios</option>
@@ -77,12 +85,20 @@ export function ItemForm({
           <option value={"Outros"}>Outros</option>
         </select>
 
-        <button type="submit">{submitLabel ?? "Adicionar"}</button>
-        {onCancel && (
-          <button type="button" onClick={onCancel}>
-            Cancelar
+        <div className={styles.actions}>
+          <button type="submit" className={styles.primary}>
+            {submitLabel ?? "Adicionar"}
           </button>
-        )}
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className={styles.secondary}
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
       </div>
     </form>
   );
