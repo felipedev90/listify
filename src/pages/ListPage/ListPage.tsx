@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { seedItems } from "../../utils/seedItems";
 import { ItemForm } from "../../components/ItemForm/ItemForm";
 import { ItemRow } from "../../components/ItemRow/ItemRow";
+import { loadItems, saveItems } from "../../services/shoppingRepo";
 import type { ShoppingItem } from "../../types/shopping";
 import type { NewItemData } from "../../components/ItemForm/ItemForm";
 
 export function ListPage() {
   const weekId = "2026-W07";
-  const [items, setItems] = useState<ShoppingItem[]>(seedItems(weekId));
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [items, setItems] = useState<ShoppingItem[]>(
+    () => loadItems(weekId) ?? seedItems(weekId),
+  );
+
+  const didMountRef = useRef(false);
+
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    saveItems(weekId, items);
+  }, [weekId, items]);
 
   function handleAdd(data: NewItemData) {
     const now = Date.now();
