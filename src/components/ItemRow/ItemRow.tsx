@@ -1,5 +1,6 @@
 import type { ShoppingItem } from "../../types/shopping";
 import { ItemForm, type NewItemData } from "../ItemForm/ItemForm";
+import styles from "./ItemRow.module.css";
 
 type ItemRowProps = {
   item: ShoppingItem;
@@ -39,26 +40,44 @@ export function ItemRow({
   }
 
   return (
-    <div>
-      <strong>{item.name}</strong>
-      {" - "}
-      <span>
-        {item.qty} {item.unit}
-      </span>
-      <p>{item.category}</p>
-      <input
-        type="checkbox"
-        checked={item.checked}
-        onChange={() => {
-          onTogglePurchased(item.id);
-        }}
-      />
-      <button type="button" onClick={() => onStartEditing(item.id)}>
-        ✏️
-      </button>
-      <button type="button" onClick={() => onDelete(item.id)}>
-        🗑️
-      </button>
+    <div className={`${styles.row} ${item.checked ? styles.rowChecked : ""}`}>
+      <label className={styles.left}>
+        <input
+          type="checkbox"
+          checked={item.checked}
+          onChange={() => {
+            onTogglePurchased(item.id);
+          }}
+        />
+
+        <div className={styles.text}>
+          <div
+            className={`${styles.title} ${item.checked ? styles.titleChecked : ""}`}
+          >
+            {item.name}
+          </div>
+          <div className={styles.meta}>
+            {item.qty} {item.unit} • {item.category}
+          </div>
+        </div>
+      </label>
+
+      <div className={styles.actions}>
+        <button
+          type="button"
+          onClick={() => onStartEditing(item.id)}
+          className={`${styles.iconBtn} ${styles.editBtn}`}
+        >
+          ✏️
+        </button>
+        <button
+          type="button"
+          onClick={() => onDelete(item.id)}
+          className={`${styles.iconBtn} ${styles.deleteBtn}`}
+        >
+          🗑️
+        </button>
+      </div>
     </div>
   );
 }
