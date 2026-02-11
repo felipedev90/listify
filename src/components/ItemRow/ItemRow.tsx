@@ -41,6 +41,7 @@ export function ItemRow({
   return (
     <div>
       <strong>{item.name}</strong>
+      {" - "}
       <span>
         {item.qty} {item.unit}
       </span>
@@ -52,11 +53,9 @@ export function ItemRow({
           onTogglePurchased(item.id);
         }}
       />
-
       <button type="button" onClick={() => onStartEditing(item.id)}>
         ✏️
       </button>
-
       <button type="button" onClick={() => onDelete(item.id)}>
         🗑️
       </button>
