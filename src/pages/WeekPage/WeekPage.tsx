@@ -11,15 +11,19 @@ export function WeekPage() {
   return (
     <main style={{ padding: 24 }}>
       <h2>Weekly Overview</h2>
-      <input
-        type="week"
-        value={weekId}
-        onChange={(e) => {
-          const next = e.target.value as WeekId;
-          setWeekId(next);
-          saveSelectedWeekId(next);
-        }}
-      />
+      <label>
+        Selecione a semana: <br />
+        <input
+          type="week"
+          value={weekId}
+          onChange={(e) => {
+            const next = e.target.value as WeekId;
+            if (!next) return;
+            setWeekId(next);
+            saveSelectedWeekId(next);
+          }}
+        />
+      </label>
     </main>
   );
 }
