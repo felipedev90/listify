@@ -1,12 +1,8 @@
-import { useState } from "react";
+import { useWeek } from "../../context/useWeek";
 import type { WeekId } from "../../types/shopping";
-import {
-  loadSelectedWeekId,
-  saveSelectedWeekId,
-} from "../../services/weekRepo";
 
 export function WeekPage() {
-  const [weekId, setWeekId] = useState<WeekId>(() => loadSelectedWeekId());
+  const { weekId, setWeekId } = useWeek();
 
   return (
     <main style={{ padding: 24 }}>
@@ -20,7 +16,6 @@ export function WeekPage() {
             const next = e.target.value as WeekId;
             if (!next) return;
             setWeekId(next);
-            saveSelectedWeekId(next);
           }}
         />
       </label>
